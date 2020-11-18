@@ -56,6 +56,6 @@ def home():
     return redirect(url_for('get_login')), status.HTTP_200_OK
 
 
-# Run Server
+# Run server
 if __name__ == '__main__':
     app.run(debug=True)
