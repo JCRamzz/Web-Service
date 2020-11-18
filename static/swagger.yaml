@@ -1,0 +1,23 @@
+openapi: 3.0.0
+info:
+  description: 'This is our RESTFUL API server. Members: Juancarlos Ramirez, Oscar Pena, Budelio Chavez'
+  version: 1.0.0
+  title: Web Service
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+tags:
+  - name: Say Hello
+    description: Send a hello message to the server
+paths:
+  /hello:
+    get:
+      tags:
+        - Say Hello
+      summary: Say hello to the server
+      description: Returns a message back saying hello
+      responses:
+        '200':
+          description: successful operation
+servers:
+  - url: http://127.0.0.1:5000/
