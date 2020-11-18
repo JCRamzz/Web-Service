@@ -59,3 +59,5 @@ def home():
 # Run server
 if __name__ == '__main__':
     app.run(debug=True)
+
+print("hello world")
