@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  description: 'Secret key:`iduwq7239834e9` This is our RESTFUL API server. Members: Juancarlos Ramirez, Oscar Pena, Budelio Chavez'
+  description: 'Secret key:`416c46727662229e0326014748346721` This is our RESTFUL API server. Members: Juancarlos Ramirez, Oscar Pena, Budelio Chavez'
   version: 1.0.0
   title: Web Service
   license:
@@ -31,22 +31,21 @@ paths:
       parameters:
         - name: zipcode
           in: path
-          description:
           required: true
           schema:
             type: integer
             format: int32
       responses:
         '200':
-          description: successful operation
+          description: Successful Operation
         '400':
-          description: bad request
+          description: Bad Request
+        '401':
+          description: Unauthorized
         '404':
-          description: not found
+          description: Not Found
       security:
-        - api_key: []
-# API KEY : 416c46727662229e0326014748346721
-
+        - Authorization: []
 
 servers:
   - url: http://127.0.0.1:5000/
@@ -54,6 +53,7 @@ servers:
 components:
   securitySchemes:
     Authorization:
+      description: '`416c46727662229e0326014748346721`'
       type: apiKey
-      name: Authorization
+      name: appid
       in: header

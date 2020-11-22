@@ -4,6 +4,10 @@ from flask import send_from_directory
 from flask_api import status
 from flask_cors import CORS
 from flask_swagger_ui import get_swaggerui_blueprint
+import requests
+
+# API key
+apikey = '416c46727662229e0326014748346721'
 
 # Initialize app
 app = Flask('app')
@@ -30,12 +34,32 @@ app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
 def get():
     return jsonify({'message': 'hello yourself'}), status.HTTP_200_OK
 
+# Grab API key from the header request
+def getAPIKEY():
+    API_KEY = str(request.headers.get('Appid')).split(" ")[0]
+    print(str(request.headers))
+    return API_KEY
+
 # Get weather by zipcode
 @app.route('/weather/<zipcode>', methods=['GET'])
 def get_weather_zipcode(zipcode):
+
+    token = getAPIKEY()
+    print(token[0])
+    if token[0] is None:
+        return jsonify({'message': 'Authorization Needed!'}), status.HTTP_401_UNAUTHORIZED
+
     if zipcode.isdigit() is False:
         return jsonify({'message': 'Invalid Input!'}), status.HTTP_400_BAD_REQUEST
-    return jsonify({'message': int(zipcode)}), status.HTTP_200_OK
+
+    response = requests.get(f'http://api.openweathermap.org/data/2.5/weather?zip={zipcode}&units=imperial&appid={token}')
+    print(response)
+    if response.status_code == 200:
+        return response.json(), status.HTTP_200_OK
+    if response.status_code == 401:
+        return response.json(), status.HTTP_401_UNAUTHORIZED
+
+    return status.HTTP_404_NOT_FOUND
 
 
 # Login landing page
