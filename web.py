@@ -30,7 +30,15 @@ app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
 def get():
     return jsonify({'message': 'hello yourself'}), status.HTTP_200_OK
 
-# test input
+# Get weather by zipcode
+@app.route('/weather/<zipcode>', methods=['GET'])
+def get_weather_zipcode(zipcode):
+    if zipcode.isdigit() is False:
+        return jsonify({'message': 'Invalid Input!'}), status.HTTP_400_BAD_REQUEST
+    return jsonify({'message': int(zipcode)}), status.HTTP_200_OK
+
+
+# Login landing page
 @app.route('/login', methods=['GET', 'POST'])
 def get_login():
     if request.method == 'POST':

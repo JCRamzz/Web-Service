@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  description: 'This is our RESTFUL API server. Members: Juancarlos Ramirez, Oscar Pena, Budelio Chavez'
+  description: 'Secret key:`iduwq7239834e9` This is our RESTFUL API server. Members: Juancarlos Ramirez, Oscar Pena, Budelio Chavez'
   version: 1.0.0
   title: Web Service
   license:
@@ -9,6 +9,8 @@ info:
 tags:
   - name: Say Hello
     description: Send a hello message to the server
+  - name: Weather
+    description: Get weather by zip code
 paths:
   /hello:
     get:
@@ -19,5 +21,39 @@ paths:
       responses:
         '200':
           description: successful operation
+  '/weather/{zipcode}':
+    get:
+      tags:
+        - Weather
+      summary: Enter zip code and get the current weather
+      description: Returns current weather from API
+      operationId: get_weather_zipcode
+      parameters:
+        - name: zipcode
+          in: path
+          description:
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: bad request
+        '404':
+          description: not found
+      security:
+        - api_key: []
+# API KEY : 416c46727662229e0326014748346721
+
+
 servers:
   - url: http://127.0.0.1:5000/
+
+components:
+  securitySchemes:
+    Authorization:
+      type: apiKey
+      name: Authorization
+      in: header
