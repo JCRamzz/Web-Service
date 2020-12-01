@@ -10,7 +10,10 @@ import requests
 apikey = '416c46727662229e0326014748346721'
 
 # Initialize app
-app = Flask('app')
+app = Flask('app', static_folder='C:\\Users\\Ramir\\PycharmProjects\\RESTAPI\\templates\\images')
+
+# Set static folder
+# app2 = Flask(static_folder='C:/Users/Ramir/PycharmProjects/RESTAPI/templates/images')
 
 # Access-Control-Allow-Origin:
 CORS(app)
@@ -66,15 +69,15 @@ def get_weather_zipcode(zipcode):
 @app.route('/login', methods=['GET', 'POST'])
 def get_login():
     if request.method == 'POST':
-        firstName = request.form['fname']
-        lastName = request.form['lname']
+        userName = request.form['username']
+        password = request.form['password']
 
-        if firstName == 'Miles' and lastName == 'Morales':
+        if userName == 'Miles' and password == 'Morales':
             return redirect('/swagger'), status.HTTP_200_OK
         else:
             return redirect('/login'), status.HTTP_401_UNAUTHORIZED
 
-    return render_template("login.html"), status.HTTP_200_OK
+    return render_template("login2.html"), status.HTTP_200_OK
 
 
 @app.route('/static/<path:path>')
