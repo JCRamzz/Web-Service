@@ -5,6 +5,7 @@ from flask_api import status
 from flask_cors import CORS
 from flask_swagger_ui import get_swaggerui_blueprint
 import requests
+from Model.classes import User
 
 # API key
 apikey = '416c46727662229e0326014748346721'
@@ -14,6 +15,9 @@ app = Flask('app')
 
 # Access-Control-Allow-Origin:
 CORS(app)
+
+# Global user object
+user = User('John Doe', 'N/A', 'N/A')
 
 # Setup swagger blueprint and path
 SWAGGER_URL = '/swagger'
@@ -65,32 +69,53 @@ def get_weather_zipcode(zipcode):
 # Login landing page
 @app.route('/login', methods=['GET', 'POST'])
 def get_login():
+
+    global user
+
     if request.method == 'POST':
         userName = request.form['username']
         password = request.form['password']
 
-        if userName == 'Miles' and password == 'Morales':
+        if userName == user.username and password == user.password:
             return redirect('/swagger'), status.HTTP_200_OK
         else:
-            return redirect('/login'), status.HTTP_401_UNAUTHORIZED
+            return render_template("View/login2.html"), status.HTTP_401_UNAUTHORIZED
 
-    return render_template("login2.html"), status.HTTP_200_OK
+    return render_template("View/login2.html"), status.HTTP_200_OK
 
-# Create account page
+# Create account page, will also validate password and confirmation
 @app.route('/create', methods=['GET', 'POST'])
-def create_account():
-    if request.method == 'POST':
-        userName = request.form['username']
-        password = request.form['password']
-        confirmation = request.form['confirmation']
+def get_account():
 
-        if password == confirmation:
+    if request.method == 'POST':
+
+        userInfo = create_account()
+
+        if userInfo.password == userInfo.confirmation:  # validate password and confirmation
             return redirect('/login'), status.HTTP_200_OK
         else:
-            return redirect('/create'), status.HTTP_400_BAD_REQUEST
-    return render_template("createaccount.html"), status.HTTP_200_OK
+            render_template("View/createaccount.html"), status.HTTP_400_BAD_REQUEST
 
+    return render_template("View/createaccount.html"), status.HTTP_200_OK
 
+# Function that will grab user name and password from account page, set up and return user object
+def create_account():
+
+    global user
+
+    username = request.form['username']
+    password = request.form['password']
+
+    try:
+        confirmation = request.form['confirmation']
+        user.username = username
+        user.password = password
+        user.confirmation = confirmation
+    except KeyError:
+        user.username = username
+        user.password = password
+
+    return user
 
 @app.route('/static/<path:path>')
 def send_swagger(path):

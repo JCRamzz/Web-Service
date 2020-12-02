@@ -1,10 +1,9 @@
 body {
-    margin: 0;
-    padding: 0;
-    width: 1920px;
-    height: 1058px;
+    background: url(source3.jpg) no-repeat center center fixed;
+    background-repeat:no-repeat;
+    background-position: center bottom;
     background-size: cover;
-    background: url(source3.jpg) center;
+    background-attachment: fixed;
     font-family: sans-serif;
 }
 
