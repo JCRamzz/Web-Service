@@ -10,10 +10,7 @@ import requests
 apikey = '416c46727662229e0326014748346721'
 
 # Initialize app
-app = Flask('app', static_folder='C:\\Users\\Ramir\\PycharmProjects\\RESTAPI\\templates\\images')
-
-# Set static folder
-# app2 = Flask(static_folder='C:/Users/Ramir/PycharmProjects/RESTAPI/templates/images')
+app = Flask('app')
 
 # Access-Control-Allow-Origin:
 CORS(app)
@@ -78,6 +75,21 @@ def get_login():
             return redirect('/login'), status.HTTP_401_UNAUTHORIZED
 
     return render_template("login2.html"), status.HTTP_200_OK
+
+# Create account page
+@app.route('/create', methods=['GET', 'POST'])
+def create_account():
+    if request.method == 'POST':
+        userName = request.form['username']
+        password = request.form['password']
+        confirmation = request.form['confirmation']
+
+        if password == confirmation:
+            return redirect('/login'), status.HTTP_200_OK
+        else:
+            return redirect('/create'), status.HTTP_400_BAD_REQUEST
+    return render_template("createaccount.html"), status.HTTP_200_OK
+
 
 
 @app.route('/static/<path:path>')
