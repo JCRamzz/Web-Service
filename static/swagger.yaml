@@ -9,6 +9,8 @@ info:
 tags:
   - name: Say Hello
     description: Send a hello message to the server
+  - name: Get Username
+    description: Get the user's username
   - name: Weather
     description: Get weather by zip code
 paths:
@@ -21,6 +23,17 @@ paths:
       responses:
         '200':
           description: successful operation
+
+  /user:
+    get:
+      tags:
+        - Get Username
+      summary: Say hello to the user, by using their username
+      description: Returns a message with the username
+      responses:
+        '200':
+          description: successful operation
+
   '/weather/{zipcode}':
     get:
       tags:

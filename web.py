@@ -38,6 +38,12 @@ app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
 def get():
     return jsonify({'message': 'hello yourself'}), status.HTTP_200_OK
 
+# Return user
+@app.route('/user', methods=['GET'])
+def get_user():
+    return jsonify({'message': f'Hello, {user.username}'}), status.HTTP_200_OK
+
+
 # Grab API key from the header request
 def getAPIKEY():
     API_KEY = str(request.headers.get('Appid')).split(" ")[0]
